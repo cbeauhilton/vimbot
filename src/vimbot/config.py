@@ -9,8 +9,9 @@ class Settings(BaseSettings):
     DB_FILE: str = os.path.join(BASE_DIR, "vimbot/dbs/vb.db")
     PROMPT_FILE_PATH: str = os.path.join(BASE_DIR, "vimbot/bot/prompt.txt")
     TMP_OUT_FILE_PATH: str = os.path.join(BASE_DIR, "vimbot/bot/tmp/out.txt")
-    POSTMARK_API_KEY: str
-    FROM_EMAIL: str
+    POSTMARK_API_KEY: str = ""
+    FROM_EMAIL: str = ""
+    SOURCE_URL: str = ""
 
     class Config:
         env_file = ".env"
@@ -28,3 +29,4 @@ PROMPT_FILE_PATH = settings.PROMPT_FILE_PATH
 TMP_OUT_FILE_PATH = settings.TMP_OUT_FILE_PATH
 POSTMARK_API_KEY = settings.POSTMARK_API_KEY
 FROM_EMAIL = settings.FROM_EMAIL
+SOURCE_URL = settings.SOURCE_URL

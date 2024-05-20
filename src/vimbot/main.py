@@ -1,3 +1,4 @@
+import os
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Form, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -8,6 +9,7 @@ from fastapi.templating import Jinja2Templates
 from .database import (
     initialize_database,
     save_chat_log,
+    get_chat_log,
     save_thumbs_feedback,
     save_text_feedback,
 )
@@ -26,8 +28,12 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
-app.mount("/templates", StaticFiles(directory="templates"), name="templates")
+folder = os.path.dirname(__file__)
+
+app.mount("/static", StaticFiles(directory=folder + "/../static"), name="static")
+app.mount(
+    "/templates", StaticFiles(directory=folder + "/../templates"), name="templates"
+)
 templates = Jinja2Templates(directory="templates")
 
 app.add_middleware(

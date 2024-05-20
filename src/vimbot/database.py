@@ -23,6 +23,14 @@ def save_chat_log(query: str, response: str) -> str:
     return chat_log.uuid
 
 
+def get_chat_log(uuid: str):
+    with Session(engine) as session:
+        statement = select(ChatLog).where(ChatLog.uuid == uuid)
+        results = session.exec(statement)
+        chat_log = results.one()
+        return chat_log
+
+
 def save_thumbs_feedback(uuid: str, helpful: int):
     with Session(engine) as session:
         statement = select(ChatLog).where(ChatLog.uuid == uuid)

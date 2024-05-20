@@ -2,6 +2,20 @@
   <div id="response-content">
     {% if response %} {{ response|safe }} {% endif %}
   </div>
+  <div id="continuation" class="mt-8">
+    <h3 class="text-lg font-bold mb-2">Continue the conversation:</h3>
+    <form hx-post="/query">
+      <input type="hidden" name="uuid" value="{{ uuid }}" />
+      <textarea
+        name="query"
+        id="query"
+        rows="4"
+        class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded mb-2"
+        placeholder="Any query typed here will continue your prior conversation. To initiate a new conversation, use the query box above."
+      ></textarea>
+      <button type="submit" class="font-bold py-2 px-4 rounded">Send</button>
+    </form>
+  </div>
   <div id="feedback">
     <div id="feedback-container" class="mt-8 py-4 justify-center">
       <h3 class="text-lg text-center font-bold mb-2">Was this helpful?</h3>
