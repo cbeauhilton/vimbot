@@ -1,0 +1,45 @@
+<div id="response" class="mt-8 p-4 dark:bg-gray-800 rounded shadow">
+  <div id="response-content">
+    {% if response %} {{ response|safe }} {% endif %}
+  </div>
+  <div id="feedback">
+    <div id="feedback-container" class="mt-8 py-4 justify-center">
+      <h3 class="text-lg text-center font-bold mb-2">Was this helpful?</h3>
+      <div id="thumbsContainer" class="flex justify-center mb-2">
+        <button
+          id="thumbsUpBtn"
+          class="px-4 py-2 bg-black rounded mr-2"
+          hx-post="/feedback"
+          hx-vals='{"helpful": 1, "uuid": "{{ uuid }}"}'
+        >
+          👍
+        </button>
+        <button
+          id="thumbsDownBtn"
+          class="px-4 py-2 bg-black rounded"
+          hx-post="/feedback"
+          hx-vals='{"helpful": 0, "uuid": "{{ uuid }}"}'
+        >
+          👎
+        </button>
+      </div>
+      <form
+        id="feedbackForm"
+        class="flex flex-col items-center"
+        hx-post="/feedback"
+      >
+        <input type="hidden" name="uuid" value="{{ uuid }}" />
+        <textarea
+          id="feedbackText"
+          name="text"
+          rows="3"
+          class="w-11/12 p-2 border border-gray-300 dark:border-gray-700 rounded mb-2"
+          placeholder="What do you think? All comments, feedback, suggestions, etc. are appreciated."
+        ></textarea>
+        <button type="submit" class="font-bold py-2 px-4 rounded">
+          Submit feedback
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

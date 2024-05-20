@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VIMbot</title>
+    <link
+      rel="icon"
+      href="{{ url_for('static', path='images/vumc-favicon.png') }}"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('static', path='css/styles.css') }}"
+      rel="stylesheet"
+    />
+    <script src="{{ url_for('static', path='js/htmx.min.js') }}"></script>
+    <script src="{{ url_for('static', path='js/marked.min.js') }}"></script>
+  </head>
+  <body>
+    <div class="container mx-auto px-4 py-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center mb-8">
+        <h1 class="text-4xl font-bold">VimBot</h1>
+        <div class="dark-mode-toggle mt-4 sm:mt-0">
+          <span id="darkModeEmoji">☀️</span>
+        </div>
+      </div>
+      <form
+        hx-post="http://127.0.0.1:8000/query"
+        hx-target="#response-container"
+        hx-indicator="#spinner"
+        class="flex flex-col"
+      >
+        <div class="query-container mb-4 relative">
+          <label for="query" class="block mb-2 font-bold"
+            >What can I help you with today?</label
+          >
+          <textarea
+            id="query"
+            name="query"
+            rows="4"
+            class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded"
+          ></textarea>
+          <div
+            class="absolute bottom-2 right-2 text-sm text-gray-400 dark:text-gray-500"
+          >
+            Press Ctrl+Enter or click to submit
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button
+            type="submit"
+            class="font-bold py-2 px-4 rounded"
+            hx-trigger="click, keyup[ctrlKey&&keyCode==13] from:body"
+            hx-post="/query"
+          >
+            Submit
+          </button>
+          <img
+            id="spinner"
+            class="htmx-indicator w-6 h-6"
+            src="{{ url_for('static', path='images/bars.svg') }}"
+          />
+        </div>
+      </form>
+      <div id="response-container"></div>
+      <div class="mt-8">
+        {% include 'how_it_works.html' %} {% include 'disclaimer.html' %} {% if
+        DEV_MODE %}
+        <details class="mt-4">
+          <summary class="font-bold text-lg cursor-pointer">
+            Session Details (DEV)
+          </summary>
+          <div class="mt-2">
+            <!-- Session details will be populated here -->
+          </div>
+        </details>
+        {% endif %}
+      </div>
+    </div>
+    <script src="{{ url_for('static', path='js/main.js') }}"></script>
+  </body>
+</html>

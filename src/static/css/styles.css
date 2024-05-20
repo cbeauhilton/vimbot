@@ -1,0 +1,220 @@
+:root {
+  --vanderbilt-gold: #eaaa00;
+  --vanderbilt-black: #000000;
+  --vanderbilt-light-gold: #ffd54f;
+  --vanderbilt-light-black: #333333;
+  --light-background: #f8f8f8;
+  --light-text: #333333;
+  --dark-background: #1e1e1e;
+  --dark-text: #f5f5f5;
+  --light-content-background: var(--light-background);
+  --dark-content-background: #2d2d2d;
+  --dark-border-color: #4a4a4a;
+  --dark-button-hover-background: #333333;
+  --light-link-color: #0066cc;
+  --light-link-hover-color: #004080;
+  --dark-link-color: #66b3ff;
+  --dark-link-hover-color: #99ccff;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--light-background);
+  color: var(--light-text);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.container {
+  max-width: 800px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: var(--vanderbilt-black);
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: var(--vanderbilt-black);
+}
+
+p {
+  margin-bottom: 1.5rem;
+}
+
+a {
+  color: var(--light-link-color);
+  text-decoration: none;
+  word-wrap: break-word;
+}
+
+a:hover {
+  color: var(--light-link-hover-color);
+  text-decoration: underline;
+}
+
+label {
+  margin-bottom: 0.5rem;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+  background-color: var(--light-background);
+  color: var(--light-text);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+#query-container {
+  position: relative;
+}
+
+button {
+  background-color: var(--vanderbilt-light-gold);
+  color: var(--vanderbilt-black);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--vanderbilt-gold);
+}
+
+.htmx-indicator {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
+}
+
+.htmx-request .htmx-indicator {
+  opacity: 1;
+}
+
+.htmx-request.htmx-indicator {
+  opacity: 1;
+}
+
+#response-content,
+.additional-content {
+  background-color: var(--light-content-background);
+  border-radius: 1px;
+  padding: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+#response-content ol,
+.additional-content ol {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding-left: 2rem;
+  list-style-type: decimal;
+}
+
+#response-content ol li,
+.additional-content ol li {
+  margin-bottom: 0.5rem;
+}
+
+#response-content ul,
+.additional-content ul {
+  margin-left: 1.5rem;
+  list-style-type: disc;
+  margin-bottom: 1.5rem;
+}
+
+#response-content ul li,
+.additional-content ul li {
+  margin-bottom: 0.5rem;
+}
+
+#response-content ul li::marker,
+.additional-content ul li::marker {
+  color: var(--vanderbilt-light-black);
+}
+
+#response-content ol li::marker,
+.additional-content ol li::marker {
+  font-weight: bold;
+  color: var(--vanderbilt-light-black);
+}
+
+.dark {
+  background-color: var(--dark-background);
+  color: var(--dark-text);
+}
+
+body.dark {
+  background-color: var(--dark-background);
+  color: var(--dark-text);
+}
+
+body.dark h1 {
+  color: var(--vanderbilt-gold);
+}
+
+body.dark h2 {
+  color: var(--vanderbilt-gold);
+}
+
+body.dark a {
+  color: var(--dark-link-color);
+}
+
+body.dark a:hover {
+  color: var(--dark-link-hover-color);
+}
+
+body.dark textarea {
+  background-color: var(--dark-content-background);
+  color: var(--dark-text);
+  border-color: var(--dark-border-color);
+}
+
+body.dark button {
+  background-color: var(--vanderbilt-black);
+  color: var(--vanderbilt-gold);
+}
+
+body.dark button:hover {
+  background-color: var(--dark-button-hover-background);
+}
+
+body.dark #response-content,
+body.dark .additional-content,
+body.dark .feedback-container {
+  background-color: var(--dark-content-background);
+}
+
+body.dark #response-content ul li::marker,
+body.dark .additional-content ul li::marker {
+  color: var(--vanderbilt-light-gold);
+}
+
+body.dark #response-content ol li::marker,
+body.dark .additional-content ol li::marker {
+  color: var(--vanderbilt-light-gold);
+}
+
+.dark-mode-toggle {
+  cursor: pointer;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+details summary {
+  outline: none;
+}
+
+details div {
+  margin-left: 1.5rem;
+}

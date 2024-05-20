@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "vimbot"
+version = "0.1.0"
+description = ""
+authors = ["Beau <cbeauhilton@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.111.0"
+sqlmodel = "^0.0.18"
+click = "^8.1.7"
+ragatouille = "^0.0.8.post2"
+setuptools = "^69.5.1"
+llm = "^0.14"
+llm-groq = "^0.4"
+llm-claude = "^0.4.0"
+jinja2 = "^3.1.4"
+mistune = "^3.0.2"
+selectolax = "^0.3.21"
+uuid = "^1.30"
+postmarker = "^1.0"
+pydantic-settings = "^2.2.1"
+email-validator = "^2.1.1"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.2"
+ruff = "^0.4.4"
+pytest = "^8.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
