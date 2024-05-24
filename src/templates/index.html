@@ -17,55 +17,63 @@
       rel="stylesheet"
     />
     <script src="{{ url_for('static', path='js/htmx.min.js') }}"></script>
-    <script src="{{ url_for('static', path='js/marked.min.js') }}"></script>
   </head>
   <body>
     <div class="container mx-auto px-4 py-8">
       <div class="flex flex-col sm:flex-row justify-between items-center mb-8">
-        <h1 class="text-4xl font-bold">VimBot</h1>
+        <h1 class="text-4xl font-bold">VIMbot</h1>
         <div class="dark-mode-toggle mt-4 sm:mt-0">
           <span id="darkModeEmoji">☀️</span>
         </div>
       </div>
-      <form
-        hx-post="http://127.0.0.1:8000/query"
-        hx-target="#response-container"
-        hx-indicator="#spinner"
-        class="flex flex-col"
-      >
-        <div class="query-container mb-4 relative">
-          <label for="query" class="block mb-2 font-bold"
-            >What can I help you with today?</label
-          >
-          <textarea
-            id="query"
-            name="query"
-            rows="4"
-            class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded"
-          ></textarea>
-          <div
-            class="absolute bottom-2 right-2 text-sm text-gray-400 dark:text-gray-500"
-          >
-            Press Ctrl+Enter or click to submit
-          </div>
-        </div>
-        <div class="flex items-center space-x-2">
-          <button
-            type="submit"
-            class="font-bold py-2 px-4 rounded"
-            hx-trigger="click, keyup[ctrlKey&&keyCode==13] from:body"
+
+      <div class="chat-container">
+        <div class="input-container">
+          <form
             hx-post="/query"
+            hx-target="#response-container"
+            hx-swap="beforebegin"
+            hx-indicator="#spinner"
+            class="flex flex-col"
           >
-            Submit
-          </button>
-          <img
-            id="spinner"
-            class="htmx-indicator w-6 h-6"
-            src="{{ url_for('static', path='images/bars.svg') }}"
-          />
+            <div class="query-container mb-4 relative">
+              <label for="query" class="block mb-2 font-bold"
+                >What can I help you with today?</label
+              >
+              <textarea
+                id="query"
+                name="query"
+                rows="4"
+                class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded"
+              ></textarea>
+              <div
+                class="absolute bottom-2 right-2 text-sm text-gray-400 dark:text-gray-500"
+              >
+                Press Ctrl+Enter or click to submit
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <button
+                type="submit"
+                class="font-bold py-2 px-4 rounded"
+                hx-trigger="click"
+                hx-post="/query"
+                onclick="navigator.vibrate(100);"
+              >
+                Submit
+              </button>
+              <div class="flex justify-center mt-2">
+                <img
+                  id="spinner"
+                  class="htmx-indicator w-6 h-6"
+                  src="{{ url_for('static', path='images/bars.svg') }}"
+                />
+              </div>
+            </div>
+          </form>
         </div>
-      </form>
-      <div id="response-container"></div>
+      </div>
+      <div id="response-container" class="response-container"></div>
       <div class="mt-8">
         {% include 'how_it_works.html' %} {% include 'disclaimer.html' %} {% if
         DEV_MODE %}
@@ -81,5 +89,6 @@
       </div>
     </div>
     <script src="{{ url_for('static', path='js/main.js') }}"></script>
+    <script src="{{ url_for('static', path='js/ctrlEnterSubmit.js') }}"></script>
   </body>
 </html>

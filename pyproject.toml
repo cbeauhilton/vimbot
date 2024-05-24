@@ -22,11 +22,28 @@ uuid = "^1.30"
 postmarker = "^1.0"
 pydantic-settings = "^2.2.1"
 email-validator = "^2.1.1"
+# datasette = "^0.64.6"
+datasette =">=1.0a13"
+datasette-configure-fts = "^1.1.3"
+datasette-export-database = "^0.2.1"
+datasette-cluster-map = "^0.18.1"
+torch = "^2.3.0"
+torchvision = {version = "^0.18.0+cpu", source = "pytorch_cpu"}
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.4.2"
 ruff = "^0.4.4"
 pytest = "^8.2.0"
+
+
+[[tool.poetry.source]]
+name = "pytorch_cpu"
+url = "https://download.pytorch.org/whl/cpu"
+priority = "explicit"
+
+[[tool.mypy.overrides]]
+module = "colbert.*"
+ignore_missing_imports = true
 
 [build-system]
 requires = ["poetry-core"]

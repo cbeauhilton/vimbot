@@ -1,16 +1,16 @@
 import os
 from sqlmodel import create_engine, Session, select
-from .config import DB_FILE
+from .config import settings
 from .models import ChatLog
 
-sqlite_url = f"sqlite:///{DB_FILE}"
+sqlite_url = f"sqlite:///{settings.DB_FILE_LOGS}"
 
 connect_args = {"check_same_thread": False}
 engine = create_engine(sqlite_url, echo=True, connect_args=connect_args)
 
 
 def initialize_database():
-    os.makedirs(os.path.dirname(DB_FILE), exist_ok=True)
+    os.makedirs(os.path.dirname(settings.DB_FILE_LOGS), exist_ok=True)
     ChatLog.metadata.create_all(engine)
 
 

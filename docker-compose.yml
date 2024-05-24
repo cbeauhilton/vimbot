@@ -1,0 +1,30 @@
+services:
+  vimbot:
+    image: python:3.12
+    ports:
+      - "8092:8000"
+    volumes:
+      - .:/app
+    working_dir: /app
+    restart: unless-stopped
+    command:
+      - sh
+      - -c
+      - |
+        pip install -r requirements.txt
+        cd src
+        fastapi run vimbot/main.py
+
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel  --no-autoupdate --protocol=quic run
+    env_file:
+      - ".env"
+
+  datasette:
+    image: python:3.12
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: sh -c "pip install datasette && datasette serve /app/src/vimbot/dbs/vb.db --host 0.0.0.0 --port 8001"

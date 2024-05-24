@@ -1,59 +1,129 @@
-<div id="response" class="mt-8 p-4 dark:bg-gray-800 rounded shadow">
-  <div id="response-content">
-    {% if response %} {{ response|safe }} {% endif %}
-  </div>
-  <div id="continuation" class="mt-8">
-    <h3 class="text-lg font-bold mb-2">Continue the conversation:</h3>
-    <form hx-post="/query">
-      <input type="hidden" name="uuid" value="{{ uuid }}" />
-      <textarea
-        name="query"
-        id="query"
-        rows="4"
-        class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded mb-2"
-        placeholder="Any query typed here will continue your prior conversation. To initiate a new conversation, use the query box above."
-      ></textarea>
-      <button type="submit" class="font-bold py-2 px-4 rounded">Send</button>
-    </form>
-  </div>
-  <div id="feedback">
-    <div id="feedback-container" class="mt-8 py-4 justify-center">
-      <h3 class="text-lg text-center font-bold mb-2">Was this helpful?</h3>
-      <div id="thumbsContainer" class="flex justify-center mb-2">
-        <button
-          id="thumbsUpBtn"
-          class="px-4 py-2 bg-black rounded mr-2"
-          hx-post="/feedback"
-          hx-vals='{"helpful": 1, "uuid": "{{ uuid }}"}'
-        >
-          👍
-        </button>
-        <button
-          id="thumbsDownBtn"
-          class="px-4 py-2 bg-black rounded"
-          hx-post="/feedback"
-          hx-vals='{"helpful": 0, "uuid": "{{ uuid }}"}'
-        >
-          👎
-        </button>
+<div id="response-container">
+  <div id="response" class="mt-8 p-4 dark:bg-gray-800 rounded shadow">
+    <div class="relative">
+      <div id="response-content">
+        {% if response %} {{ response|safe }} {% endif %}
       </div>
+      <button
+        type="button"
+        class="copy-button absolute bottom-2 right-2 bg-gray-700 text-white px-2 py-1 rounded"
+        onclick="copyToClipboard(event); navigator.vibrate(100);"
+      >
+        Copy
+      </button>
+    </div>
+  </div>
+  <div id="response" class="mt-8">
+    <h3 class="text-lg font-bold mb-2">Continue the conversation:</h3>
+    <div id="response-content">
       <form
-        id="feedbackForm"
-        class="flex flex-col items-center"
-        hx-post="/feedback"
+        hx-post="/query"
+        hx-target="#feedback-container"
+        hx-swap="outerHTML"
+        hx-indicator="#spinner2"
+        class="flex flex-col relative"
       >
         <input type="hidden" name="uuid" value="{{ uuid }}" />
         <textarea
-          id="feedbackText"
-          name="text"
-          rows="3"
-          class="w-11/12 p-2 border border-gray-300 dark:border-gray-700 rounded mb-2"
-          placeholder="What do you think? All comments, feedback, suggestions, etc. are appreciated."
+          name="query"
+          id="query"
+          rows="4"
+          class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded mb-2"
+          placeholder="Any query typed here will continue your prior conversation. To initiate a new conversation, use the first box at the top of the page."
         ></textarea>
-        <button type="submit" class="font-bold py-2 px-4 rounded">
-          Submit feedback
+        <button
+          type="submit"
+          class="font-bold py-2 px-4 rounded"
+          onclick="navigator.vibrate(100);"
+        >
+          Submit
         </button>
+        <div class="flex justify-center mt-2">
+          <img
+            id="spinner2"
+            class="htmx-indicator w-6 h-6"
+            src="{{ url_for('static', path='images/bars.svg') }}"
+          />
+        </div>
       </form>
     </div>
   </div>
+
+  <div id="feedback-container">
+    <div id="feedback">
+      <div class="mt-8 py-4 justify-center">
+        <h3 class="text-lg text-center font-bold mb-2">Was this helpful?</h3>
+        <div id="thumbsContainer" class="flex justify-center mb-2">
+          <button
+            id="thumbsUpBtn"
+            class="px-4 py-2 bg-black rounded mr-2"
+            hx-post="/feedback"
+            hx-vals='{"helpful": 1, "uuid": "{{ uuid }}"}'
+            onclick="navigator.vibrate(100);"
+          >
+            👍
+          </button>
+          <button
+            id="thumbsDownBtn"
+            class="px-4 py-2 bg-black rounded"
+            hx-post="/feedback"
+            hx-vals='{"helpful": 0, "uuid": "{{ uuid }}"}'
+            onclick="navigator.vibrate(100);"
+          >
+            👎
+          </button>
+        </div>
+        <form
+          id="feedbackForm"
+          class="flex flex-col items-center"
+          hx-post="/feedback"
+        >
+          <input type="hidden" name="uuid" value="{{ uuid }}" />
+          <textarea
+            id="feedbackText"
+            name="text"
+            rows="3"
+            class="w-11/12 p-2 border border-gray-300 dark:border-gray-700 rounded mb-2"
+            placeholder="What do you think? All comments, feedback, suggestions, etc. are appreciated."
+          ></textarea>
+          <button
+            type="submit"
+            class="font-bold py-2 px-4 rounded"
+            onclick="navigator.vibrate(100);"
+          >
+            Submit feedback
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
+<!-- <script src="{{ url_for('static', path='js/ctrlEnterSubmit.js') }}"></script> -->
+
+<script>
+  async function copyToClipboard(event) {
+    const responseDiv = event.target.closest("#response");
+    const responseContent = responseDiv.querySelector("#response-content");
+    const text = responseContent.innerText;
+    try {
+      await navigator.clipboard.writeText(text);
+      // alert("Response copied to clipboard!");
+    } catch (err) {
+      console.error("Failed to copy response: ", err);
+    }
+  }
+</script>
+<script>
+  document.addEventListener("keydown", function (event) {
+    if (event.ctrlKey && event.key === "Enter") {
+      const activeElement = document.activeElement;
+      if (activeElement.tagName === "TEXTAREA") {
+        event.preventDefault();
+        const form = activeElement.closest("form");
+        if (form) {
+          form.dispatchEvent(new Event("submit"));
+        }
+      }
+    }
+  });
+</script>

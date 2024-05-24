@@ -1,9 +1,10 @@
+### TODO: - this is not yet implemented (and may never be)
 import re
-from postmarker.core import PostmarkClient
-from .config import POSTMARK_API_KEY, FROM_EMAIL
+from postmarker.core import PostmarkClient  # type: ignore[import-untyped]
+from vimbot.config import settings
 
 # Initialize Postmark client with your API key
-postmark = PostmarkClient(server_token=POSTMARK_API_KEY)
+postmark = PostmarkClient(server_token=settings.POSTMARK_API_KEY)
 
 
 def scan_for_email(text: str) -> str | None:
@@ -17,8 +18,8 @@ def scan_for_email(text: str) -> str | None:
 
 def send_email(to: str, subject: str, body: str) -> None:
     """Send an email using Postmark."""
-    postmark.emails.send(
-        From=FROM_EMAIL,
+    postmark.emails.send(  # type: ignore[no-untyped-call]
+        From=settings.FROM_EMAIL,
         To=to,
         Subject=subject,
         HtmlBody=body,

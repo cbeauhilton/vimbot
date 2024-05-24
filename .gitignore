@@ -25,9 +25,17 @@ coverage.xml
 # Database files
 *.db
 
+# Backup files
+*.bk
+
+# Source docs
+docs/
+
 # Environment files
 .env
 .venv/
 venv/
 .ragatouille/
+ragatouille/
 tmp/
+.profile

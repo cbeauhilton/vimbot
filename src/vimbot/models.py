@@ -1,6 +1,6 @@
 from uuid import uuid4
 from datetime import datetime
-from sqlmodel import Field, SQLModel
+from sqlmodel import Field, SQLModel  # type: ignore[reportOptionalMemberAccess]
 
 
 class ChatLog(SQLModel, table=True):

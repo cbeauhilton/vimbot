@@ -43,4 +43,16 @@ document.addEventListener("DOMContentLoaded", function () {
       this.removeAttribute("placeholder");
     }
   });
+
+  async function copyToClipboard() {
+    const responseContent = document.getElementById("response-content");
+    const text = responseContent.innerText;
+
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("Response copied to clipboard!");
+    } catch (err) {
+      console.error("Failed to copy response: ", err);
+    }
+  }
 });
