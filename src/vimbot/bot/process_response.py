@@ -12,8 +12,15 @@ class LinkParser(HTMLParser):
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         if tag == "a":
             attrs.append(("target", "_blank"))
-        attrs_str = " ".join(f'{attr}="{val}"' for attr, val in attrs)
-        self.modified_html.append(f"<{tag} {attrs_str}>")
+            attrs_str = " ".join(f'{attr}="{val}"' for attr, val in attrs)
+            self.modified_html.append(
+                f"<{tag} {attrs_str}>"
+            )  # Added space before attributes for <a> tag
+        else:
+            attrs_str = " ".join(f'{attr}="{val}"' for attr, val in attrs)
+            self.modified_html.append(
+                f"<{tag}{' ' + attrs_str if attrs_str else ''}>"
+            )  # Conditional space before attributes
 
     @override
     def handle_endtag(self, tag: str) -> None:
